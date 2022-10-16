@@ -13,4 +13,12 @@ public class GameController : MonoBehaviour
         Instantiate(session.SelectedVehicle.Vehicle);
     }
 
+
+    public void NextComponent() { }
+    public void PrevComponent() { }
+    public void NextOption() { }
+    public void PrevOption() { }
+    
+    
+
 }
