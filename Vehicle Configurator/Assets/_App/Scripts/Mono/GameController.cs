@@ -22,15 +22,17 @@ public class GameController : MonoBehaviour
 
 
     #region CurrentVehicle
-    public void NextComponent() { currVehicleCustomization.NextComponent(); }
-    public void PrevComponent() { currVehicleCustomization.PrevComponent(); }
-    public void NextOption() { currVehicleCustomization.NextOption(); }
-    public void PrevOption() { currVehicleCustomization.PrevOption(); }
+    public void NextComponent() => currVehicleCustomization.NextComponent();
+    public void PrevComponent() => currVehicleCustomization.PrevComponent();
+    public void NextOption() => currVehicleCustomization.NextOption();
+    public void PrevOption() => currVehicleCustomization.PrevOption();
+    public void NextMaterial() => currVehicleCustomization.NextMaterial();
+    public void PrevMaterial() => currVehicleCustomization.PrevMaterial();
     #endregion
 
 
     #region Session
-    public void NextVehicle() { session.NextVehicle(); }
+    public void NextVehicle() => session.NextVehicle();
     public void PrevVehicle() { } //{ session.PrevVehicle(); }
     #endregion
 

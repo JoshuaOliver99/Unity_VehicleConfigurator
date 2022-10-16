@@ -15,6 +15,8 @@ public class VehicleCustomization : MonoBehaviour
 
     public int currComponentFocus = 0;
 
+    public float totalPrice = 0;
+
     private void Start()
     {
         // Note:
@@ -23,10 +25,19 @@ public class VehicleCustomization : MonoBehaviour
 
         vehicleComponents = new VehicleComponent[]
         { body, spoiler, breaks, suspension, accessory1, accessory2 };
-
-
     }
 
+    private void OnEnable() => VehicleComponent.OnCostUpdate += VehicleComponent_OnCostUpdate;
+    private void OnDisable() => VehicleComponent.OnCostUpdate -= VehicleComponent_OnCostUpdate;
+
+
+
+    private void VehicleComponent_OnCostUpdate()
+    {
+        totalPrice = 0;
+        foreach (VehicleComponent vehicleComponent in vehicleComponents)
+            totalPrice += vehicleComponent.totalPrice;
+    }
 
 
 
@@ -46,19 +57,10 @@ public class VehicleCustomization : MonoBehaviour
     }
 
 
-    public void NextOption()
-    {
-        //if (vehicleComponents[currComponentFocus].options.Length > 1)
-            vehicleComponents[currComponentFocus].NextOption();
-        //else
-        //    print($"{name} {vehicleComponents[currComponentFocus]} only has one option. Call redundant");
 
-    }
-    public void PrevOption()
-    {
-        //if (vehicleComponents[currComponentFocus].options.Length > 1)
-            vehicleComponents[currComponentFocus].PrevOption();
-        //else
-        //    print($"{name} {vehicleComponents[currComponentFocus]} only has one option. Call redundant");
-    }
+    public void NextOption() => vehicleComponents[currComponentFocus].NextOption();
+    public void PrevOption() => vehicleComponents[currComponentFocus].PrevOption();
+
+    public void NextMaterial() => vehicleComponents[currComponentFocus].NextMaterial();
+    public void PrevMaterial() => vehicleComponents[currComponentFocus].PrevMaterial();
 }
