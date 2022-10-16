@@ -13,6 +13,8 @@ public class VehicleCustomization : MonoBehaviour
 
     VehicleComponent[] vehicleComponents;
 
+    public int currComponentFocus = 0;
+
     private void Start()
     {
         // Note:
@@ -23,5 +25,40 @@ public class VehicleCustomization : MonoBehaviour
         { body, spoiler, breaks, suspension, accessory1, accessory2 };
 
 
+    }
+
+
+
+
+    public void NextComponent() 
+    {
+        currComponentFocus++;
+
+        if (currComponentFocus >= vehicleComponents.Length)
+            currComponentFocus = 0;
+    }
+    public void PrevComponent() 
+    {
+        currComponentFocus--;
+
+        if (currComponentFocus < 0)
+            currComponentFocus = vehicleComponents.Length - 1;
+    }
+
+
+    public void NextOption()
+    {
+        //if (vehicleComponents[currComponentFocus].options.Length > 1)
+            vehicleComponents[currComponentFocus].NextOption();
+        //else
+        //    print($"{name} {vehicleComponents[currComponentFocus]} only has one option. Call redundant");
+
+    }
+    public void PrevOption()
+    {
+        //if (vehicleComponents[currComponentFocus].options.Length > 1)
+            vehicleComponents[currComponentFocus].PrevOption();
+        //else
+        //    print($"{name} {vehicleComponents[currComponentFocus]} only has one option. Call redundant");
     }
 }

@@ -6,19 +6,32 @@ public class GameController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private SO_Session session;
+    private VehicleCustomization currVehicleCustomization;
 
+    
 
     private void Start()
     {
-        Instantiate(session.SelectedVehicle.Vehicle);
+        // Note: to do...
+        // there should only be one instance of this mono'.
+        // Singleton?..
+
+        GameObject newVehicle = Instantiate(session.SelectedVehicle.Vehicle);
+        currVehicleCustomization = newVehicle.GetComponentInChildren<VehicleCustomization>();
     }
 
 
-    public void NextComponent() { }
-    public void PrevComponent() { }
-    public void NextOption() { }
-    public void PrevOption() { }
-    
-    
+    #region CurrentVehicle
+    public void NextComponent() { currVehicleCustomization.NextComponent(); }
+    public void PrevComponent() { currVehicleCustomization.PrevComponent(); }
+    public void NextOption() { currVehicleCustomization.NextOption(); }
+    public void PrevOption() { currVehicleCustomization.PrevOption(); }
+    #endregion
+
+
+    #region Session
+    public void NextVehicle() { session.NextVehicle(); }
+    public void PrevVehicle() { } //{ session.PrevVehicle(); }
+    #endregion
 
 }

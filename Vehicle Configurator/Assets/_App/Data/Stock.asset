@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Stock
   m_EditorClassIdentifier: 
   vehicles:
-  - {fileID: 11400000, guid: 6c184dc45adc47643b8be86ed5a77968, type: 2}
   - {fileID: 11400000, guid: 821fd0b62534ef24eae70b4e1647dfe0, type: 2}
+  - {fileID: 11400000, guid: 6c184dc45adc47643b8be86ed5a77968, type: 2}

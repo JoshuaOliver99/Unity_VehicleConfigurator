@@ -17,7 +17,6 @@ public class SO_Session : ScriptableObject
         set { stock = value; }
     }
 
-
     [Header("Data")]
     private SO_Vehicle selectedVehicle;
     public SO_Vehicle SelectedVehicle
@@ -27,12 +26,15 @@ public class SO_Session : ScriptableObject
     }
 
 
+    private int currSelectedVehicle = 0;
+
+
     private void OnEnable()
     {
         // Initialization
-        if (selectedVehicle == null) 
-            if (Stock != null) 
-                selectedVehicle = stock.Vehicles[0];
+        //if (selectedVehicle == null) 
+        //    if (Stock != null) 
+        //        selectedVehicle = stock.Vehicles[0];
 
         // Error Handling
         if (stock == null) Debug.LogWarning($"{name} {nameof(stock)} == null. Stock asset not assigned!");
@@ -42,4 +44,20 @@ public class SO_Session : ScriptableObject
         // To Do...
         // Ensure only one type of this object exists.
     }
+
+
+
+    public void NextVehicle()
+    {
+        if (stock.Vehicles.Length <= 1)
+            return;
+
+        currSelectedVehicle++;
+
+        if (currSelectedVehicle >= stock.Vehicles.Length)
+            currSelectedVehicle = 0;
+
+        selectedVehicle = stock.Vehicles[currSelectedVehicle];
+    }
+
 }

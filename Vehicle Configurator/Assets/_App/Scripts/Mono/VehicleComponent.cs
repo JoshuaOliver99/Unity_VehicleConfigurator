@@ -9,9 +9,9 @@ public class VehicleComponent : MonoBehaviour
 
     [Header("Customization")]
     [SerializeField] private bool isOptionable = true;
-    [SerializeField] private CustomizationOption[] options;
+    public CustomizationOption[] options;
 
-    private CustomizationOption chosenOption;
+    private int currOption; // Note: -1 indicates nothing
     private float totalPrice;
 
     void Start()
@@ -30,21 +30,68 @@ public class VehicleComponent : MonoBehaviour
                 option.selectedMaterial = option.materialOptions[0];
         }
 
-        // Enable one if not optionable
-        if (isOptionable == false)
-            options[0].gameObject.SetActive(true);
+
+        if (isOptionable == true)
+            currOption = -1;
+        else 
+            currOption = 0;
+
+        SetActiveOption(currOption);
     }
 
-    void CycleOption(int direction)
+    
+    //void ChooseOption(int index)
+    //{
+    //    options[index].gameObject.SetActive(true);
+    //
+    //    totalPrice = options[index].price + options[index].selectedMaterial.price;
+    //}
+    
+    
+    public void NextOption()
     {
-        
+        currOption++;
+
+        if (currOption >= options.Length)
+        {
+            if (isOptionable)
+                currOption = -1;
+            else
+                currOption = 0;
+        }  
+
+        SetActiveOption(currOption);
     }
 
-    void ChooseOption(int index)
+    public void PrevOption()
     {
+        currOption--;
+
+        if(isOptionable)
+        {
+            if(currOption < -1)
+                currOption = options.Length - 1;
+        }
+        else
+        {
+            if (currOption < 0)
+                currOption = options.Length - 1;
+        }
+
+        SetActiveOption(currOption);
+    }
+
+
+    private void SetActiveOption(int index)
+    {
+        foreach (var option in options)
+            option.gameObject.SetActive(false);
+
+        // if nothing
+        if (index < 0) 
+            return;
+
         options[index].gameObject.SetActive(true);
-
-        totalPrice = options[index].price + options[index].selectedMaterial.price;
     }
 
 }
