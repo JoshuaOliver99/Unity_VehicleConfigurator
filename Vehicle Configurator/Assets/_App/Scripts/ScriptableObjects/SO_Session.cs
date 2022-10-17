@@ -19,22 +19,24 @@ public class SO_Session : ScriptableObject
 
     [Header("Data")]
     private SO_Vehicle selectedVehicle;
-    public SO_Vehicle SelectedVehicle
-    {
-        get { return selectedVehicle; }
-        set { selectedVehicle = value; }
-    }
+    public SO_Vehicle SelectedVehicle { get => selectedVehicle; set => selectedVehicle = value; }
 
 
     private int currSelectedVehicle = 0;
 
 
+
+    public delegate void VehicleChange();
+    public static event VehicleChange OnVehicleUpdate;
+
+
+    
     private void OnEnable()
     {
         // Initialization
-        //if (selectedVehicle == null) 
-        //    if (Stock != null) 
-        //        selectedVehicle = stock.Vehicles[0];
+        if (selectedVehicle == null) 
+            if (Stock != null) 
+                selectedVehicle = stock.Vehicles[0];
 
         // Error Handling
         if (stock == null) Debug.LogWarning($"{name} {nameof(stock)} == null. Stock asset not assigned!");
@@ -58,6 +60,23 @@ public class SO_Session : ScriptableObject
             currSelectedVehicle = 0;
 
         selectedVehicle = stock.Vehicles[currSelectedVehicle];
+
+        OnVehicleUpdate?.Invoke();
+    }
+
+    public void PrevVehicle()
+    {
+        if (stock.Vehicles.Length <= 1)
+            return;
+
+        currSelectedVehicle--;
+
+        if (currSelectedVehicle < 0)
+            currSelectedVehicle = stock.Vehicles.Length - 1;
+
+        selectedVehicle = stock.Vehicles[currSelectedVehicle];
+
+        OnVehicleUpdate?.Invoke();
     }
 
 }

@@ -9,6 +9,9 @@ public class VehicleComponent : MonoBehaviour
 
     [Header("Customization")]
     [SerializeField] private bool isOptionable = true;
+    public bool IsOptionable { get => isOptionable;  private set => isOptionable = value; }
+
+
     public CustomizationOption[] options;
 
     private int currOption = 0; // Note: -1 indicates nothing
@@ -47,17 +50,20 @@ public class VehicleComponent : MonoBehaviour
 
     private void SetActiveOption(int index)
     {
+        // Deactivate others
         foreach (var option in options)
             option.gameObject.SetActive(false);
 
-        // if nothing
-        if (index < 0)
-        {
-            UpdateTotalPrice();
-            return;
-        }
+        //// if nothing
+        //if (index < 0)
+        //{
+        //    UpdateTotalPrice();
+        //    return;
+        //}
 
-        options[index].gameObject.SetActive(true);
+        // if (options exist && not option "nothing")
+        if (options.Length > 0 && index > -1)
+            options[index].gameObject.SetActive(true);
 
         UpdateTotalPrice();
     }
@@ -70,6 +76,7 @@ public class VehicleComponent : MonoBehaviour
     private void UpdateActiveMaterial()
     {
         options[currOption].gameObject.GetComponent<Renderer>().material = options[currOption].materialOptions[options[currOption].currMaterial].material;
+            
         
         UpdateTotalPrice();
     }
@@ -78,16 +85,13 @@ public class VehicleComponent : MonoBehaviour
     private void UpdateTotalPrice()
     {
         totalPrice = 0;
-        Debug.Log($"{name} total: {totalPrice}");
 
         if (currOption != -1)
         {
             totalPrice += options[currOption].price;
-            Debug.Log($"{name} total + option: {totalPrice}");
 
             if (options[currOption].materialOptions.Length > 0)
-                totalPrice += options[currOption].materialOptions[options[currOption].currMaterial].price; // Note: this is completely unreadable. 
-            Debug.Log($"{name} total + material: {totalPrice}");
+                totalPrice += options[currOption].materialOptions[options[currOption].currMaterial].price; // (add material price) Note: this is completely unreadable. 
         }
         
         OnCostUpdate?.Invoke();
@@ -130,6 +134,9 @@ public class VehicleComponent : MonoBehaviour
 
     public void NextMaterial()
     {
+        if (currOption < 0)
+            return;
+
         if (!options[currOption].isPaintable)
             return;
 
@@ -142,6 +149,9 @@ public class VehicleComponent : MonoBehaviour
     }
     public void PrevMaterial()
     {
+        if (currOption < 0)
+            return;
+
         if (!options[currOption].isPaintable)
             return;
 
@@ -154,6 +164,16 @@ public class VehicleComponent : MonoBehaviour
     }
 
 
+
+    #region Returning
+    public CustomizationOption GetCurrOption()
+    {
+        if (currOption >= 0)
+            return options[currOption];
+        else 
+            return null;
+    }
+    #endregion
 }
 
 [System.Serializable]
@@ -169,6 +189,13 @@ public class CustomizationOption
     public bool isPaintable = false;
     public CustomizableMaterial[] materialOptions;
     public int currMaterial = 0;
+
+
+    public CustomizableMaterial CurrMaterial 
+    { 
+        get => materialOptions[currMaterial]; 
+        private set => materialOptions[currMaterial] = value;
+    }
 }
 
 [System.Serializable]

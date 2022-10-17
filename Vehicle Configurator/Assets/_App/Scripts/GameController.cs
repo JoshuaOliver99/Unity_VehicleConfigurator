@@ -8,7 +8,6 @@ public class GameController : MonoBehaviour
     [SerializeField] private SO_Session session;
     private VehicleCustomization currVehicleCustomization;
 
-    
 
     private void Start()
     {
@@ -16,9 +15,21 @@ public class GameController : MonoBehaviour
         // there should only be one instance of this mono'.
         // Singleton?..
 
+        UpdateVehicle();
+    }
+    private void OnEnable() => SO_Session.OnVehicleUpdate += UpdateVehicle;
+    private void OnDisable() => SO_Session.OnVehicleUpdate -= UpdateVehicle;
+
+
+    private void UpdateVehicle()
+    {
+        if (currVehicleCustomization != null)
+            Destroy(currVehicleCustomization.gameObject);
+
         GameObject newVehicle = Instantiate(session.SelectedVehicle.Vehicle);
         currVehicleCustomization = newVehicle.GetComponentInChildren<VehicleCustomization>();
     }
+
 
 
     #region CurrentVehicle
@@ -33,7 +44,7 @@ public class GameController : MonoBehaviour
 
     #region Session
     public void NextVehicle() => session.NextVehicle();
-    public void PrevVehicle() { } //{ session.PrevVehicle(); }
+    public void PrevVehicle() => session.PrevVehicle();
     #endregion
 
 }
