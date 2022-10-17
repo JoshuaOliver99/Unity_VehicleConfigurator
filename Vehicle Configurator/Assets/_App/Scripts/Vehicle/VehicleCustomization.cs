@@ -10,26 +10,25 @@ public class VehicleCustomization : MonoBehaviour
     [SerializeField] private VehicleComponent spoiler;
     [SerializeField] private VehicleComponent breaks;
     [SerializeField] private VehicleComponent suspension;
+    //[SerializeField] private VehicleComponent windows;
     [SerializeField] private VehicleComponent accessory1;
     [SerializeField] private VehicleComponent accessory2;
     private List<VehicleComponent> vehicleComponents = new();
     
-
     [Header("Settings")]
     [SerializeField] private float startingPrice = 0;
 
     [Header("Data")]
     private int currComponentFocus = 0;
     private float totalPrice = 0;
-    public float TotalPrice
-    {
-        get { return totalPrice; }
-        private set { totalPrice = value; }
-    }
 
-
+    
     public delegate void ComponentFocusChange(VehicleCustomization currentVehicle);
     public static event ComponentFocusChange OnCustomizationUpdate; // Passing data relating to current vehicle
+
+    public VehicleComponent CurrComponent { get => vehicleComponents[currComponentFocus]; }
+    public List<VehicleComponent> Components { get => vehicleComponents; }
+    public float TotalPrice { get => totalPrice; }
 
 
     private void Start()
@@ -53,7 +52,7 @@ public class VehicleCustomization : MonoBehaviour
     {
         totalPrice = startingPrice;
         foreach (VehicleComponent vehicleComponent in vehicleComponents)
-            totalPrice += vehicleComponent.totalPrice;
+            totalPrice += vehicleComponent.TotalPrice;
 
         OnCustomizationUpdate?.Invoke(this);
     }
@@ -84,10 +83,4 @@ public class VehicleCustomization : MonoBehaviour
 
     public void NextMaterial() => vehicleComponents[currComponentFocus].NextMaterial();
     public void PrevMaterial() => vehicleComponents[currComponentFocus].PrevMaterial();
-
-
-    #region Returning
-    public VehicleComponent GetCurrComponent() => vehicleComponents[currComponentFocus];
-    public List<VehicleComponent> GetComponents() => vehicleComponents;
-    #endregion
 }

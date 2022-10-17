@@ -10,16 +10,12 @@ public class SO_Stock : ScriptableObject
 {
     [Header("References")]
     [SerializeField] private SO_Vehicle[] vehicles;
-    public SO_Vehicle[] Vehicles
-    {
-        get { return vehicles; }
-        set { vehicles = value; }
-    }
+
+    public SO_Vehicle[] Vehicles { get => vehicles; }
 
     private void OnEnable()
     {
         // Error Handling
         if (vehicles == null) Debug.LogWarning($"{name} {nameof(vehicles)} == null. No vehicles in stock!");
-
     }
 }

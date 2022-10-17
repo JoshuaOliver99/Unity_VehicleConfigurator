@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// GameController handles all high level functionality
+/// </summary>
 public class GameController : MonoBehaviour
 {
     [Header("References")]
@@ -28,6 +31,7 @@ public class GameController : MonoBehaviour
 
         GameObject newVehicle = Instantiate(session.SelectedVehicle.Vehicle);
         currVehicleCustomization = newVehicle.GetComponentInChildren<VehicleCustomization>();
+
     }
 
 

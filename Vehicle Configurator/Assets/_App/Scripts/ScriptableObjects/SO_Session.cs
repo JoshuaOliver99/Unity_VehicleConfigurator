@@ -11,26 +11,20 @@ public class SO_Session : ScriptableObject
 {
     [Header("References")]
     [SerializeField] private SO_Stock stock;
-    public SO_Stock Stock
-    {
-        get { return stock; }
-        set { stock = value; }
-    }
+
 
     [Header("Data")]
     private SO_Vehicle selectedVehicle;
-    public SO_Vehicle SelectedVehicle { get => selectedVehicle; set => selectedVehicle = value; }
-
-
     private int currSelectedVehicle = 0;
-
 
 
     public delegate void VehicleChange();
     public static event VehicleChange OnVehicleUpdate;
-
-
     
+    public SO_Vehicle SelectedVehicle { get => selectedVehicle; }
+    public SO_Stock Stock { get => stock; }
+
+
     private void OnEnable()
     {
         // Initialization
@@ -46,7 +40,6 @@ public class SO_Session : ScriptableObject
         // To Do...
         // Ensure only one type of this object exists.
     }
-
 
 
     public void NextVehicle()

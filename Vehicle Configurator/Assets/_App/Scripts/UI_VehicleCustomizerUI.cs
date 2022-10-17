@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-public class UI_VehicleCustomizer : MonoBehaviour
+public class UI_VehicleCustomizerUI : MonoBehaviour
 {
     [Header("References - Text")]
     [SerializeField] private TMP_Text vehicle;
@@ -55,35 +55,35 @@ public class UI_VehicleCustomizer : MonoBehaviour
         vehicle.text = currVehicle.name.Split("(Clone)")[0];
 
         // Component
-        component.text = currVehicle.GetCurrComponent().name;
+        component.text = currVehicle.CurrComponent.name;
 
         // Component Option
-        if (currVehicle.GetCurrComponent().GetCurrOption() == null)
+        if (currVehicle.CurrComponent.CurrOption == null)
             option.text = "";
         else
-            option.text = currVehicle.GetCurrComponent().GetCurrOption().name;
+            option.text = currVehicle.CurrComponent.CurrOption.Name;
 
         // Component Option Material
-        if (currVehicle.GetCurrComponent().GetCurrOption() == null)
+        if (currVehicle.CurrComponent.CurrOption == null)
             optionMaterial.text = "";
-        else if (currVehicle.GetCurrComponent().GetCurrOption().isPaintable == false)
+        else if (currVehicle.CurrComponent.CurrOption.IsPaintable == false)
             optionMaterial.text = "";
         else 
-            optionMaterial.text = currVehicle.GetCurrComponent().GetCurrOption().CurrMaterial.material.name;
+            optionMaterial.text = currVehicle.CurrComponent.CurrOption.CurrMaterial.Material.name;
 
         // Component Price
-        if (currVehicle.GetCurrComponent().GetCurrOption() == null)
+        if (currVehicle.CurrComponent.CurrOption == null)
             componentPrice.text = "/";
         else
-            componentPrice.text = "£" + currVehicle.GetCurrComponent().GetCurrOption().price.ToString();
+            componentPrice.text = "£" + currVehicle.CurrComponent.CurrOption.Price.ToString();
 
         // Material Price
-        if (currVehicle.GetCurrComponent().GetCurrOption() == null)
+        if (currVehicle.CurrComponent.CurrOption == null)
             materialPrice.text = "/";
-        else if (currVehicle.GetCurrComponent().GetCurrOption().isPaintable == false)
+        else if (currVehicle.CurrComponent.CurrOption.IsPaintable == false)
             materialPrice.text = "/";
         else
-            materialPrice.text = "£" + currVehicle.GetCurrComponent().GetCurrOption().CurrMaterial.price.ToString();
+            materialPrice.text = "£" + currVehicle.CurrComponent.CurrOption.CurrMaterial.Price.ToString();
 
         // Full Price
         fullPrice.text = "£" + currVehicle.TotalPrice.ToString();
@@ -91,27 +91,27 @@ public class UI_VehicleCustomizer : MonoBehaviour
 
         // Order Details
         orderDetails.text = $"{currVehicle.name.Split("(Clone)")[0]} \n ";
-        foreach (var component in currVehicle.GetComponents())
+        foreach (var component in currVehicle.Components)
         {
             // Component
             orderDetails.text += $" {component.name}:";
         
             // Option
-            if (component.GetCurrOption() == null)
+            if (component.CurrOption == null)
                 orderDetails.text += " None Changes";
             else
-                orderDetails.text += $" {component.GetCurrOption().name}";
+                orderDetails.text += $" {component.CurrOption.Name}";
         
             // Material
-            if (component.GetCurrOption() == null)
+            if (component.CurrOption == null)
                 orderDetails.text += "";
-            else if (component.GetCurrOption().isPaintable == false)
+            else if (component.CurrOption.IsPaintable == false)
                 orderDetails.text += "";
             else
-                orderDetails.text += $", {component.GetCurrOption().CurrMaterial.material.name}";
+                orderDetails.text += $", {component.CurrOption.CurrMaterial.Material.name}";
         
             // Price
-            orderDetails.text += $" - £{component.totalPrice} \n";
+            orderDetails.text += $" - £{component.TotalPrice} \n";
         }
         // Full Price
         orderDetails.text += $"\n £{currVehicle.TotalPrice}";
@@ -119,7 +119,7 @@ public class UI_VehicleCustomizer : MonoBehaviour
 
     private void UpdateButtons(VehicleCustomization currVehicle)
     {
-        if (currVehicle.GetCurrComponent().IsOptionable)
+        if (currVehicle.CurrComponent.IsOptionable)
         {
             buttonPrevOption.SetActive(true);
             buttonNextOption.SetActive(true);
@@ -130,12 +130,12 @@ public class UI_VehicleCustomizer : MonoBehaviour
             buttonNextOption.SetActive(false);
         }
 
-        if (currVehicle.GetCurrComponent().GetCurrOption() == null)
+        if (currVehicle.CurrComponent.CurrOption == null)
         {
             buttonPrevMaterial.SetActive(false);
             buttonNextMaterial.SetActive(false);
         }
-        else if (currVehicle.GetCurrComponent().GetCurrOption().isPaintable)
+        else if (currVehicle.CurrComponent.CurrOption.IsPaintable)
         {
             buttonPrevMaterial.SetActive(true);
             buttonNextMaterial.SetActive(true);
