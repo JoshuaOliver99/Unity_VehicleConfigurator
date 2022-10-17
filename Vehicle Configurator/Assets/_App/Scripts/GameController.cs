@@ -31,7 +31,6 @@ public class GameController : MonoBehaviour
 
         GameObject newVehicle = Instantiate(session.SelectedVehicle.Vehicle);
         currVehicleCustomization = newVehicle.GetComponentInChildren<VehicleCustomization>();
-
     }
 
 
